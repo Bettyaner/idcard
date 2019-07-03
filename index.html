@@ -183,6 +183,7 @@
             </ul>
             <div id="box" class="text-center" style="display:none;">
                 <canvas id="myCanvas"></canvas>
+                <div id='show_img_box'></div>
                 <div class="btn_box">
                     <span class="btn" onclick="download()">下载图片</span>
                     <span class="btn" onclick="reload()">重新生成</span>
@@ -254,7 +255,7 @@
                     form.style.setProperty('display', 'none');
 
                     var show_img = document.createElement('img');
-                    var show_div = document.createElement('div');
+                    var show_div = document.getElementById('div');
                     // window.onerror = function(errorMessage, scriptURI, lineNumber,columnNumber,errorObj) {
                     //     myCanvas.style.setProperty('display','block');
            
@@ -265,7 +266,7 @@
                     show_div.innerHTML='';
                     show_div.appendChild(show_img);
                     // myCanvas
-                    myCanvas.parentNode.insertBefore(show_div,myCanvas);
+//                     myCanvas.parentNode.insertBefore(show_div,myCanvas);
                     
 
                 }
