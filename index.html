@@ -126,6 +126,50 @@
                     /* height: 23px; */
                     /* margin-left: 1px; */
                 }
+                #loading{
+                    position: fixed;
+                    width:100%;
+                    height: 100%;
+                    background-color: rgba(0,0,0,0.5);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    left: 0;
+                    top:0;
+                    z-index: 10;
+                    /* display: none; */
+                    transform: all 0.2;
+                    opacity: 0;
+                    visibility: hidden;
+                }
+                .loading{
+                    display: block;
+                    width: 30px;
+                    height: 30px;
+                    background-color: rgb(253, 168, 39);
+                    border-radius: 2px;
+                    animation: rotate 3s infinite;
+                    /* trasn */
+                }
+                @keyframes rotate {
+                    0%{
+                        transform: rotate(45deg);
+                        width: 25px;
+                        height: 25px;
+                    }
+                    50%{
+                        transform: rotate(225deg);
+                        width: 40px;
+                        height: 40px;
+                        border-radius: 5px;
+
+                    }
+                    100%{
+                        transform: rotate(405deg);
+                        width: 25px;
+                        height: 25px;
+                    }
+                }
                 @media screen and (max-width:750px){
                     .color_box{
                         width: 20px;
@@ -191,10 +235,21 @@
             </div>
             
         </div>
-                
+        <div id="loading">
+            <span class="loading"></span>
+        </div>      
         
         <script>
-
+            var loading = {
+                show:function(){
+                    document.getElementById('loading').style.setProperty('opacity','1');
+                    document.getElementById('loading').style.setProperty('visibility','visible');
+                },
+                hide:function(){
+                    document.getElementById('loading').style.setProperty('opacity','0');
+                    document.getElementById('loading').style.setProperty('visibility','hidden');
+                }
+            }
             function setColor(){
                 const color = localStorage.backgroundColor || '#394a71';
                 const body = document.getElementsByTagName('body');
@@ -204,6 +259,7 @@
             setColor();
 
             function create(){
+                loading.show();
                 const male_name = document.getElementById('male_name').value||'男姓名';
                 const male_birth = document.getElementById('male_birth').value||'940204';
                 const female_name = document.getElementById('female_name').value||'女姓名';
@@ -260,6 +316,7 @@
                     //     myCanvas.style.setProperty('display','block');
            
                     // }
+                    loading.hide();
                     show_img.src = myCanvas.toDataURL("image/jpeg");
                     myCanvas.style.setProperty('display','none');
                     
