@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <title>canvas简单的认识</title>
+        <style>
+                body{
+                    /* background: url(bg.jpg) no-repeat center; */
+                    /* background-size: cover; */
+                    background-color: #394a71
+                }
+                *{
+                    margin:0;
+                    padding:0;
+                    list-style: none;
+                }
+                .content{
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    flex-direction: column;
+                    height: 100vh;
+                }
+                .list{
+                    width: 80%;
+                    max-width: 600px;
+                    padding:20px;
+                    border-radius: 10px;
+                    background-color: rgba(0,0,0,0.5);
+                    padding-bottom: 40px;
+                }
+                .list li{
+                    margin-top:20px;
+                    display: table;
+                    width: 100%
+                }
+                .list label{
+                    display: table-cell;
+                    width: 100px;
+                    color: #fff
+                }
+                .list .input{
+                    border-radius: 5px;
+                    border:1px #ccc solid;
+                    outline: none;
+                    transition: all 0.3s;
+                    width: 94%;
+                    display: table-cell;
+                    padding:10px;
+                }
+                .list .input:focus{
+                    border-color: rgb(128, 173, 255);
+                    box-shadow: 0 0 10px rgba(87, 146, 255, 0.5)
+                }
+                
+                .btn{
+                    padding:6px 10px;
+                    color: #fff;
+                    background-color: rgb(70, 144, 255);
+                    border-radius: 5px;
+                    transition: all 0.3s;
+                    cursor: pointer;
+                }
+               .btn:hover{
+                    background-color: rgb(34, 128, 252);
+                }
+                .text-center{
+                    text-align: center
+                }
+                #box{
+                    overflow: hidden;
+                    margin-top:50px;
+                    background: rgba(0,0,0,0.5);
+                    padding-left: 20px;
+                    padding-right: 20px;
+                    padding-top: 20px;
+                    padding-bottom: 30px;
+                    border-radius: 10px;
+                    max-width: 80%;
+                }
+                #box canvas,#box img{
+                    display: block;
+                    margin-bottom: 30px;
+                    max-width: 100%;
+                }
+                .width{
+                    color: #999;
+                    margin-top:-20px;
+                    margin-bottom: 20px;
+                }
+                .btn_box .btn{
+                    margin-right: 20px;
+                }
+                .btn_box .btn:last-child{
+                    margin-right: 0;
+                }
+                #color_input{
+                    min-width: 100px;
+                    min-height: 100px;
+                    cursor: pointer;
+                }
+                .color_box{
+                    border: none;
+                    background-color: transparent;
+                    width: 25px;
+                    height: 25px;      
+                    border-radius: 100%;
+                    overflow: hidden;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    cursor: pointer;
+                }
+                .color_select{
+                    position: fixed;
+                    right: 0;
+                    top:50px;
+                    background-color: rgba(0,0,0,0.5);
+                    padding:10px;
+                    border-radius: 5px;
+                }
+                #default_color{
+                    background-color: #394a71;
+                    margin-top:10px;
+                    /* width: 23px; */
+                    /* height: 23px; */
+                    /* margin-left: 1px; */
+                }
+                @media screen and (max-width:750px){
+                    .color_box{
+                        width: 20px;
+                        height: 20px;
+                        float: left;
+                    }
+                    .color_select{
+                        top:40px;
+                        padding:5px;
+                        border-radius: 5px;
+                    }
+                    .color_select::after{
+                        display: block;
+                        clear: both;
+                        content: '';
+                    }
+                    #default_color{
+                        margin-top:0;
+                        margin-left: 10px;
+                    }
+                }
+            </style>
+        
+    </head>
+    <body>
+        <div class='color_select'>
+            <div class="color_box">
+                <input type="color" id="color_input" onchange="colorChange()">
+            </div>
+            <div id="default_color" class="color_box" onclick="setDefaultColor()">
+                <!-- <input type="color" id="color_input" onchange="colorChange()"> -->
+            </div>
+        </div>
+        
+        <div class="content">
+            <ul id="form" class="list">
+                <li>
+                    <label>男姓名：</label>
+                    <input id="male_name" class="input" type="text" placeholder="姓名"/>
+                </li>
+                <li>
+                    <label>男生日：</label>
+                    <input id="male_birth" class="input" type="text" placeholder="例：940204"/>
+                </li>
+                <li>
+                    <label>女姓名：</label>
+                    <input id="female_name" class="input" type="text" placeholder="姓名"/>
+                </li>
+                <li>
+                    <label>女生日：</label>
+                    <input id="female_birth" class="input" type="text" placeholder="例：940204"/>
+                </li>
+                    
+                <li class="text-center"><span class="btn" onclick="create()">生成图片</span></li>    
+            </ul>
+            <div id="box" class="text-center" style="display:none;">
+                <canvas id="myCanvas"></canvas>
+                <div class="btn_box">
+                    <span class="btn" onclick="download()">下载图片</span>
+                    <span class="btn" onclick="reload()">重新生成</span>
+                </div>
+            </div>
+            
+        </div>
+                
+        
+        <script>
+
+            function setColor(){
+                const color = localStorage.backgroundColor || '#394a71';
+                const body = document.getElementsByTagName('body');
+                body[0].style.background=color;
+                document.getElementById('color_input').value=color;
+            }
+            setColor();
+
+            function create(){
+                const male_name = document.getElementById('male_name').value||'男姓名';
+                const male_birth = document.getElementById('male_birth').value||'940204';
+                const female_name = document.getElementById('female_name').value||'女姓名';
+                const female_birth = document.getElementById('female_birth').value||'940204';
+                const male_birth_y = '19'+male_birth.slice(0,2);
+                const male_birth_m = male_birth.slice(2,4);
+                const male_birth_d = male_birth.slice(4,6);
+                const female_birth_y = '19'+female_birth.slice(0,2);
+                const female_birth_m = female_birth.slice(2,4);
+                const female_birth_d = female_birth.slice(4,6);
+
+                var cxt=myCanvas.getContext("2d");
+                //添加图片
+                var img=new Image();
+                img.src="demo.jpg";
+                myCanvas.width='800';
+                myCanvas.height = '450';
+                img.onload=function(){
+                    cxt.drawImage(img,0,0);
+                    
+                    //添加文字
+                    cxt.font="bold 14px SimHei";
+
+                    cxt.fillStyle="#a99e98";
+                    cxt.fillText(male_name,150,136);
+
+                    cxt.fillStyle="#a99e98";
+                    cxt.fillText(female_name,146,167);
+
+                    cxt.font="bold 14px Microsoft YaHei";
+
+                    cxt.fillStyle="#aba49c";
+                    cxt.fillText(male_birth_y,268,135);
+
+                    cxt.fillText(male_birth_m,320,135);
+
+                    cxt.fillText(male_birth_d,351,135);
+
+                    cxt.fillText(female_birth_y,265,167);
+                    
+                    cxt.fillText(female_birth_m,314,167);
+
+                    cxt.fillText(female_birth_d,344,167);
+
+                    // cxt.strokeStyle="#a99e98";
+                    // cxt.strokeText("张徽",150,135);
+
+                    box.style.setProperty('display', 'block');
+                    form.style.setProperty('display', 'none');
+
+                    var show_img = document.createElement('img');
+                    var show_div = document.createElement('div');
+                    // window.onerror = function(errorMessage, scriptURI, lineNumber,columnNumber,errorObj) {
+                    //     myCanvas.style.setProperty('display','block');
+           
+                    // }
+                    show_img.src = myCanvas.toDataURL("image/jpeg");
+                    myCanvas.style.setProperty('display','none');
+                    
+                    show_div.innerHTML='';
+                    show_div.appendChild(show_img);
+                    // myCanvas
+                    myCanvas.parentNode.insertBefore(show_div,myCanvas);
+                    
+
+                }
+               
+                
+            }
+            function reload(){
+                box.style.setProperty('display', 'none');
+                form.style.setProperty('display', 'block');
+            }
+
+            function download(){
+                var oA = document.createElement("a");
+                oA.download = 'img';// 设置下载的文件名，默认是'下载'
+                oA.href = document.getElementById('myCanvas').toDataURL("image/jpeg");
+                document.body.appendChild(oA);
+                oA.click();
+                oA.remove(); // 下载之后把创建的元素删除
+               
+            }
+
+            
+
+            function colorChange(){
+                const color = document.getElementById('color_input').value;
+                const body = document.getElementsByTagName('body');
+                // const body = document.getElementById('form');
+                body[0].style.background=color;
+                localStorage.setItem("backgroundColor",color)
+            }
+
+            function setDefaultColor(){
+                const default_color = '#394a71';
+                document.getElementById('color_input').value = default_color;
+                const body = document.getElementsByTagName('body');
+                // const body = document.getElementById('form');
+                body[0].style.background=default_color;
+                localStorage.setItem("backgroundColor",default_color)
+            }
+
+
+        </script>
+    </body>
+</html>
