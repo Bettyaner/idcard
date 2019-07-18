@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <title>Hello,Betty</title>
+       <link rel="stylesheet" href="/css/main.css">
+        
+    </head>
+    <body>
+        <div class='color_select'>
+            <div class="color_box">
+                <input type="color" id="color_input" onchange="colorChange()">
+            </div>
+            <div id="default_color" class="color_box" onclick="setDefaultColor()">
+                <!-- <input type="color" id="color_input" onchange="colorChange()"> -->
+            </div>
+        </div>
+        
+        <div class="content">
+            <div id="form_box" class="list">
+                <ul id="form" style="margin-bottom: 30px;">
+
+                </ul>
+                    
+                <div class="text-center"><span class="btn" onclick="create()">生成图片</span></div>  
+            </div>
+            <div id="box" class="text-center" style="display:none;">
+                <canvas id="myCanvas"></canvas>
+                <div id='show_img_box'></div>
+                <div class="btn_box">
+                    <span class="btn" onclick="download()">下载图片</span>
+                    <span class="btn" onclick="reload()">重新生成</span>
+                </div>
+            </div>
+            
+        </div>
+        <div id="loading">
+            <span class="loading"></span>
+        </div>     
+        <script src="/js/ajax.js"></script> 
+        <script src="/js/main.js"></script> 
+        
+        <script>
+
+
+
+
+            function getParams(){
+                const search = location.search.substr(1);
+                console.log(search)
+                const list = search.split('&');
+                var param = {};
+                list.forEach(function(data){
+                    var a = data.split('=');
+                    param[a[0]] = a[1]
+                });
+                return param;
+
+            }
+
+            const type = getParams().type;
+            var  img_data = {};
+            function init(){
+                loading.show();
+                 ajax({
+                    url:"json.json",
+                    dataType:"json",
+                    success:function(data){
+                        img_data = data[type];
+                        console.log(img_data)
+                        var html = '';
+                        for(var i=0;i<img_data.list.length;i++){
+                            html+=` <li>
+                                <label>姓名${i+1}：</label>
+                                <input id="name${i}" class="input" type="text" placeholder="姓名"/>
+                            </li>
+                            <li>
+                                <label>生日${i+1}：</label>
+                                <input id="birth${i}" class="input" type="text" placeholder="例：940204"/>
+                            </li>`;
+                            if(img_data.issex){
+                                html+=`<li>
+                                    <label>性别${i+1}：</label>
+                                    <input id="sex${i}" class="input" type="text" placeholder="性别"/>
+                                </li>`
+                            }
+                        }
+                        document.getElementById('form').innerHTML = html;
+                        loading.hide();
+                    },
+                    error:function(){
+                        loading.hide();
+                        alert("error");
+                    }
+                })
+            }
+            init();
+            
+            function create(){
+                loading.show();
+                var cxt=myCanvas.getContext("2d");
+                //添加图片
+               
+                var img=new Image();
+                img.src=img_data.url;
+                myCanvas.width=img_data.width;
+                myCanvas.height = img_data.height;
+                img.onload=function(){
+                    cxt.drawImage(img,0,0);
+
+                    for(var i = 0;i<img_data.list.length; i++){
+                        let name = document.getElementById("name"+i).value;
+                        let birth = document.getElementById("birth"+i).value;
+                        const data = img_data.list[i];
+                        if(birth.length===6){
+                            var birth_y = '19'+birth.slice(0,2);
+                            var birth_m = birth.slice(2,4);
+                            var birth_d = birth.slice(4,6);
+                        }else if(birth.length===8){
+                            var birth_y = birth.slice(0,4);
+                            var birth_m = birth.slice(4,6);
+                            var birth_d = birth.slice(6,8);
+                        }else{
+                            alert('请输入正确生日');
+                            loading.hide();
+                            return;
+                        }
+                       
+
+                        cxt.font=img_data.nameStyle.font;
+                        cxt.fillStyle=img_data.nameStyle.color;
+                        cxt.fillText(name,data.namePosition[0],data.namePosition[1]);
+
+                        cxt.font=img_data.birthStyle.font;
+                        cxt.fillStyle=img_data.birthStyle.color;
+                        cxt.fillText(birth_y,data.birthPosition[0][0],data.birthPosition[0][1]);
+                        cxt.fillText(birth_m,data.birthPosition[1][0],data.birthPosition[1][1]);
+                        cxt.fillText(birth_d,data.birthPosition[2][0],data.birthPosition[2][1]);
+
+                        if(img_data.issex){
+                            const sex = document.getElementById("sex"+i).value;
+                            cxt.font=img_data.sexStyle.font;
+                            cxt.fillStyle=img_data.sexStyle.color;
+                            cxt.fillText(sex,data.sexPosition[0],data.sexPosition[1]);
+                        }
+                    }
+
+
+                    box.style.setProperty('display', 'block');
+                    form_box.style.setProperty('display', 'none');
+                    var show_img = document.createElement('img');
+                    var show_div = document.getElementById('show_img_box');
+
+                    loading.hide();
+                    show_img.src = myCanvas.toDataURL("image/jpeg");
+                    myCanvas.style.setProperty('display','none');
+                    
+                    show_div.innerHTML='';
+                    show_div.appendChild(show_img);
+                    
+                }
+               
+                
+            }
+            function reload(){
+                box.style.setProperty('display', 'none');
+                form_box.style.setProperty('display', 'block');
+            }
+            function download(){
+                var oA = document.createElement("a");
+                oA.download = 'img';// 设置下载的文件名，默认是'下载'
+                oA.href = document.getElementById('myCanvas').toDataURL("image/jpeg");
+                document.body.appendChild(oA);
+                oA.click();
+                oA.remove(); // 下载之后把创建的元素删除
+               
+            }
+            
+        </script>
+    </body>
+</html>
