@@ -112,7 +112,16 @@
                         let name = document.getElementById("name"+i).value;
                         let birth = document.getElementById("birth"+i).value;
                         const data = img_data.list[i];
-                        if(birth.length===6){
+                        if(birth.indexOf(' ') > 0){
+                            let birth_list = birth.split(' ');
+                            if(birth_list[0].length===2){
+                                var birth_y = '19'+birth_list[0];
+                            }else if(birth_list[0].length===4){
+                                var birth_y = birth_list[0];
+                            }
+                            var birth_m = birth_list[1];
+                            var birth_d = birth_list[2];
+                        }else if(birth.length===6){
                             var birth_y = '19'+birth.slice(0,2);
                             var birth_m = birth.slice(2,4);
                             var birth_d = birth.slice(4,6);
