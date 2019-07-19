@@ -159,5 +159,79 @@
                "birthPosition":[[600,517],[715,517],[785,517]]
             }
         ]
+    },
+    {
+        "url":"img/demo5.jpg",  
+        "width":"800",
+        "height":"450",
+        "issex":false,
+        "nameStyle":{
+            "font":"bold 20px 宋体",
+            "color":"#8f9092"
+        },
+        "sexStyle":{
+            "font":"bold 23px 宋体",
+            "color":"#8f9092"
+        },
+        "birthStyle":{
+            "font":"16px Microsoft YaHei",
+            "color":"#8c8f96"
+        },
+        "list":[
+            {
+               "namePosition":[90,115],
+               "sexPosition":[485,270],
+               "birthPosition":[[230,117],[290,117],[328,118]]
+            },
+            {
+                "namePosition":[90,160],
+               "sexPosition":[485,340],
+               "birthPosition":[[230,161],[290,162],[328,163]]
+               
+            },
+            {
+                "namePosition":[90,200],
+               "sexPosition":[485,430],
+               "birthPosition":[[226,205],[287,206],[326,207]]
+               
+            }
+        ]
+    },
+    {
+        "url":"img/demo6.jpg",  
+        "width":"800",
+        "height":"450",
+        "issex":true,
+        "nameStyle":{
+            "font":"bold 20px 宋体",
+            "color":"#8f9092"
+        },
+        "sexStyle":{
+            "font":"bold 20px 宋体",
+            "color":"#8f9092"
+        },
+        "birthStyle":{
+            "font":"16px Microsoft YaHei",
+            "color":"#8c8f96"
+        },
+        "list":[
+            {
+               "namePosition":[90,115],
+               "sexPosition":[180,115],
+               "birthPosition":[[230,117],[290,117],[328,118]]
+            },
+            {
+                "namePosition":[90,160],
+               "sexPosition":[180,160],
+               "birthPosition":[[230,161],[290,162],[328,163]]
+               
+            },
+            {
+                "namePosition":[90,200],
+               "sexPosition":[180,205],
+               "birthPosition":[[226,205],[287,206],[326,207]]
+               
+            }
+        ]
     }
 ]
