@@ -146,29 +146,21 @@ body{
 }
 .loading{
     display: block;
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     background-color: rgb(253, 168, 39);
-    border-radius: 2px;
+    border-radius: 5px;
     animation: rotate 3s infinite;
-    /* trasn */
 }
 @keyframes rotate {
     0%{
-        transform: rotate(45deg);
-        width: 25px;
-        height: 25px;
+        transform: rotate(45deg) scale(0.6);
     }
     50%{
-        transform: rotate(225deg);
-        width: 40px;
-        height: 40px;
-        border-radius: 5px;
+        transform: rotate(225deg) scale(1);
     }
     100%{
-        transform: rotate(405deg);
-        width: 25px;
-        height: 25px;
+        transform: rotate(405deg) scale(0.6);
     }
 }
 .demo_list{
