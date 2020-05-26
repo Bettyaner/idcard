@@ -181,9 +181,24 @@ body{
     border-radius: 10px;
     overflow: hidden;
     float: left;
+    background-color: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.demo_list .demo_item::before{
+    content: '';
+    width: 25px;
+    height: 25px;
+    background-color: #a069b7;
+    border-radius: 3px;
+    position: absolute;
+    animation: rotate 3s infinite;
+
 }
 .demo_item img{
     max-width: 100%;
+    position: relative;
 }
 @media screen and (max-width:750px){
     .color_box{
