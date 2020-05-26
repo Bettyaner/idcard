@@ -279,7 +279,7 @@
         "url":"img/demo8.jpg",  
         "width":"1440",
         "height":"1080",
-        "issex":true,
+        "issex":false,
         "nameStyle":{
             "font":"32px 黑体",
             "color":"#606a6f"
