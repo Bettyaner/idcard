@@ -233,5 +233,87 @@
                
             }
         ]
+    },
+    {
+        "url":"img/demo7.jpg",  
+        "width":"1440",
+        "height":"1080",
+        "issex":true,
+        "nameStyle":{
+            "font":"32px 黑体",
+            "color":"#606a6f"
+        },
+        "sexStyle":{
+            "font":"32px 黑体",
+            "color":"#757e83"
+        },
+        "birthStyle":{
+            "font":"28px Calibri",
+            "color":"#7b8589"
+        },
+        "list":[
+            {
+               "namePosition":[291,380],
+               "sexPosition":[450,382],
+               "birthPosition":[[524,378],[617,378],[673,378]]
+            },
+            {
+                "namePosition":[287,450],
+               "sexPosition":[446,448],
+               "birthPosition":[[520,438],[613,438],[670,438]]
+               
+            },
+            {
+                "namePosition":[283,515],
+               "sexPosition":[442,514],
+               "birthPosition":[[519,505],[610,507],[665,507]]
+            },
+            {
+                "namePosition":[280,580],
+               "sexPosition":[438,580],
+               "birthPosition":[[520,573],[612,573],[668,573]]
+            }
+        ]
+    },
+    {
+        "url":"img/demo8.jpg",  
+        "width":"1440",
+        "height":"1080",
+        "issex":true,
+        "nameStyle":{
+            "font":"32px 黑体",
+            "color":"#606a6f"
+        },
+        "sexStyle":{
+            "font":"32px 黑体",
+            "color":"#757e83"
+        },
+        "birthStyle":{
+            "font":"28px Calibri",
+            "color":"#7b8589"
+        },
+        "list":[
+            {
+               "namePosition":[291,380],
+               "sexPosition":[450,382],
+               "birthPosition":[[524,378],[617,378],[673,378]]
+            },
+            {
+                "namePosition":[287,450],
+               "sexPosition":[446,448],
+               "birthPosition":[[520,438],[613,438],[670,438]]
+               
+            },
+            {
+                "namePosition":[283,515],
+               "sexPosition":[442,514],
+               "birthPosition":[[519,505],[610,507],[665,507]]
+            },
+            {
+                "namePosition":[280,580],
+               "sexPosition":[438,580],
+               "birthPosition":[[520,573],[612,573],[668,573]]
+            }
+        ]
     }
 ]
